@@ -27,7 +27,11 @@ class DVSTextOutput:
         # edit below to match your device from https://inivation.com/support/software/fileformat/#aedat-20
         self.numEventsWritten = 0
         logging.info('opening text DVS output file {}'.format(filepath))
+<<<<<<< HEAD
         self.file = open(filepath, 'w+')
+=======
+        self.file = open(filepath, 'w')
+>>>>>>> f60b8e65cc68addfe58acb8c061590401a6035ea
         self._writeHeader()
         atexit.register(self.cleanup)
         self.flipx=False # set both flipx and flipy to rotate TODO replace with rotate180

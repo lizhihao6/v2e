@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 .pretrain/
+=======
+>>>>>>> f60b8e65cc68addfe58acb8c061590401a6035ea
 .vscode/
 .DS_Store
 *.pyc

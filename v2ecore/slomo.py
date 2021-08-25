@@ -7,7 +7,10 @@
         https://github.com/avinashpaliwal/Super-SloMo
 """
 
+<<<<<<< HEAD
 from numpy.lib.npyio import save
+=======
+>>>>>>> f60b8e65cc68addfe58acb8c061590401a6035ea
 import torch
 import os
 import numpy as np
@@ -26,7 +29,10 @@ from PIL import Image
 import logging
 import atexit
 import warnings
+<<<<<<< HEAD
 import numpy as np
+=======
+>>>>>>> f60b8e65cc68addfe58acb8c061590401a6035ea
 
 warnings.filterwarnings(
     "ignore", category=UserWarning,
@@ -437,16 +443,24 @@ class SuperSloMo(object):
                     # Save intermediate frames from this particular upsampling point between src frames
                     for batchIndex in range(num_batch_frames):
                         img = self.to_image(Ft_p[batchIndex].cpu().detach())
+<<<<<<< HEAD
                         img = cv2.cvtColor(np.asarray(img),cv2.COLOR_RGB2BGR) 
                         # img_resize = img.resize(ori_dim, Image.BILINEAR)
                         img_resize = cv2.resize(img, ori_dim)
+=======
+                        img_resize = img.resize(ori_dim, Image.BILINEAR)
+>>>>>>> f60b8e65cc68addfe58acb8c061590401a6035ea
                         # the output frame index is computed
                         outputFrameIdx=outputFrameCounter + upsampling_factor * batchIndex + intermediateIndex
                         save_path = os.path.join(
                             output_folder,
                             str(outputFrameIdx) + ".png")
+<<<<<<< HEAD
                         # img_resize.save(save_path)
                         cv2.imwrite(save_path, img_resize)
+=======
+                        img_resize.save(save_path)
+>>>>>>> f60b8e65cc68addfe58acb8c061590401a6035ea
 
                 # for preview
                 if self.preview:
