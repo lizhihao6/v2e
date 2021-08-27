@@ -388,7 +388,7 @@ class EventEmulator(object):
         assert len(new_frame.shape) == 2, "generate events' input image should be gray image"
         if(new_frame.max()<=1):
             print("Alert!!! input image may be in range 0-1")
-        new_frame = torch.pow(new_frame/255., 2.2)
+        new_frame = torch.pow(new_frame/255., 2.2)*255.
         # base_frame: the change detector input,
         #              stores memorized brightness values
         # new_frame: the new intensity frame input
