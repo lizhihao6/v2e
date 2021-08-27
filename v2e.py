@@ -726,7 +726,7 @@ def main():
                     f'*** Stage 3/3: emulating DVS events from '
                     f'{nFrames} frames')
 
-                # parepare extra steps for data storage
+                # prepare extra steps for data storage
                 # right before event emulation
                 if args.davis_output:
                     emulator.prepare_storage(nFrames, interpTimes)
