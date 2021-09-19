@@ -269,6 +269,10 @@ def main():
     dvs_h5 = args.dvs_h5
     dvs_aedat2 = args.dvs_aedat2
     dvs_text = args.dvs_text
+    dvs_numpy = args.dvs_numpy
+    dvs_numpy_diff = args.dvs_numpy_diff
+    if dvs_numpy is not None:
+        assert dvs_numpy_diff is not None, "dvs_numpy_diff should given when use dvs_numpy output"
 
     # Debug feature: if show slomo stats
     slomo_stats_plot = args.slomo_stats_plot
@@ -469,7 +473,8 @@ def main():
         refractory_period_s=args.refractory_period,
         seed=args.dvs_emulator_seed,
         output_folder=output_folder, dvs_h5=dvs_h5, dvs_aedat2=dvs_aedat2,
-        dvs_text=dvs_text, show_dvs_model_state=args.show_dvs_model_state,
+        dvs_text=dvs_text, dvs_numpy=dvs_numpy, dvs_numpy_diff=dvs_numpy_diff,
+        show_dvs_model_state=args.show_dvs_model_state,
         output_width=output_width, output_height=output_height,
         device=torch_device)
 

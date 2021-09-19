@@ -17,6 +17,7 @@ import torch
 from v2ecore.v2e_utils import checkAddSuffix
 from v2ecore.output.aedat2_output import AEDat2Output
 from v2ecore.output.ae_text_output import DVSTextOutput
+from v2ecore.output.numpy_output import DVSNumpyOutput
 
 from v2ecore.emulator_utils import lin_log
 from v2ecore.emulator_utils import rescale_intensity_frame
@@ -52,6 +53,8 @@ class EventEmulator(object):
             dvs_h5: str = None,
             dvs_aedat2: str = None,
             dvs_text: str = None,
+            dvs_numpy: str = None,
+            dvs_numpy_diff: float = None,
             # change as you like to see 'baseLogFrame',
             # 'lpLogFrame', 'diff_frame'
             show_dvs_model_state: str = None,
@@ -142,6 +145,10 @@ class EventEmulator(object):
         # aedat or text output
         self.dvs_aedat2 = dvs_aedat2
         self.dvs_text = dvs_text
+        if dvs_numpy is not None:
+            assert dvs_numpy_diff is not None, "dvs_numpy_diff should given when use dvs_numpy output"
+        self.dvs_numpy = dvs_numpy
+        self.dvs_numpy_diff = dvs_numpy_diff
 
         # event stats
         self.num_events_total = 0
@@ -176,6 +183,14 @@ class EventEmulator(object):
                 path = checkAddSuffix(path, '.txt')
                 logger.info('opening text DVS output file ' + path)
                 self.dvs_text = DVSTextOutput(path)
+            if dvs_numpy:
+                if "s3://" in dvs_numpy:
+                    path = dvs_numpy
+                else:
+                    path = os.path.join(self.output_folder, dvs_numpy)
+                path = checkAddSuffix(path, '.npy')
+                logger.info('opening text DVS output file ' + path)
+                self.dvs_text = DVSNumpyOutput(path, self.output_height, self.output_width, self.dvs_numpy_diff)
         except Exception as e:
             logger.error(f'Output file exception "{e}" (maybe you need to specify a supported DVS camera type?)')
             raise e
@@ -222,6 +237,9 @@ class EventEmulator(object):
                 self.dvs_text.close()
             except:
                 pass
+        
+        if self.dvs_numpy is not None:
+            self.dvs_numpy.close()
 
     def _init(self, first_frame_linear):
         logger.debug(
@@ -633,6 +651,8 @@ class EventEmulator(object):
                 self.dvs_aedat2.appendEvents(events)
             if self.dvs_text is not None:
                 self.dvs_text.appendEvents(events)
+            if self.dvs_numpy is not None:
+                self.dvs_numpy.appendEvents(events)
 
         if self.frame_ev_idx_dataset is not None:
             # save frame event idx
