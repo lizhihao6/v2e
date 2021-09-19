@@ -48,16 +48,16 @@ class DVSNumpyOutput:
         n = events.shape[0]
         t = (events[:, 0]).astype(np.float)
         x = events[:, 1].astype(np.int32)
-        if self.flipx: x = (self.sizex - 1) - x  # 0 goes to sizex-1
+        if self.flipx: x = (self.width - 1) - x  # 0 goes to sizex-1
         y = events[:, 2].astype(np.int32)
-        if self.flipy: y = (self.sizey - 1) - y
+        if self.flipy: y = (self.height - 1) - y
         p = (events[:, 3]).astype(np.int32) # -1 / 1
         for i in range(n):
             step = int(t[i] // self.diff)
             if step+1 > len(self.events):
                 for _i in range(len(self.events), step+1):
                     self.events.append(np.zeros([self.height, self.width, 1]).astype(np.int32))
-            self.events[step][y, x, 0] += p
+            self.events[step][y[i], x[i], 0] += p[i]
 
         self.numEventsWritten += n
 
