@@ -59,7 +59,7 @@ class DVSNumpyOutput:
             step = int(t[i] // self.diff)
             if step >= self.max_steps:
                 continue
-            self.events[step][y[i], x[i], 0] += p[i]
+            self.events[y[i], x[i], step] += p[i]
 
         self.numEventsWritten += n
 
