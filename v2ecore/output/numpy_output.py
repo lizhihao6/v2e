@@ -53,7 +53,7 @@ class DVSNumpyOutput:
         if self.flipy: y = (self.sizey - 1) - y
         p = (events[:, 3]).astype(np.int32) # -1 / 1
         for i in range(n):
-            step = t[i] // self.diff
+            step = int(t[i] // self.diff)
             if step+1 > len(self.events):
                 for _i in range(len(self.events), step+1):
                     self.events.append(np.zeros([self.height, self.width, 1]).astype(np.int32))
