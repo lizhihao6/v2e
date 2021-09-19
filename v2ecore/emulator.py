@@ -190,7 +190,7 @@ class EventEmulator(object):
                     path = os.path.join(self.output_folder, dvs_numpy)
                 path = checkAddSuffix(path, '.npy')
                 logger.info('opening text DVS output file ' + path)
-                self.dvs_text = DVSNumpyOutput(path, self.output_height, self.output_width, self.dvs_numpy_diff)
+                self.dvs_numpy = DVSNumpyOutput(path, self.output_height, self.output_width, self.dvs_numpy_diff)
         except Exception as e:
             logger.error(f'Output file exception "{e}" (maybe you need to specify a supported DVS camera type?)')
             raise e
