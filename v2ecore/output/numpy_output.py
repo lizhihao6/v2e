@@ -35,7 +35,7 @@ class DVSNumpyOutput:
         if "s3://" in self.filepath:
             from aiisp_tool.utils.oss_helper import OSSHelper
             helper = OSSHelper()
-            helper.upload(self.filepath, self.events, "numpy")
+            helper.upload(self.events, self.filepath, "numpy")
         else:
             np.save(self.filepath, self.events)
         self.events = None
