@@ -13,6 +13,7 @@ import glob
 import argparse
 import importlib
 import sys
+from tkinter.constants import NO
 
 import argcomplete
 import cv2
@@ -647,7 +648,7 @@ def main():
             with TemporaryDirectory() as interpFramesFolder:
                 interpTimes = None
                 # make input to slomo
-                if auto_timestamp_resolution or slowdown_factor != NO_SLOWDOWN:
+                if (auto_timestamp_resolution or slowdown_factor != NO_SLOWDOWN) and slomo is not None:
                     # interpolated frames are stored to tmpfolder as
                     # 1.png, 2.png, etc
 
