@@ -31,7 +31,6 @@ class DVSNumpyOutput:
             return
         if self.events[:, :, 0].max()==self.events[:, :, 0].min()==0:
             self.events[:, :, 0] = self.events[:, :, 1]
-        self.events = np.concatenate(self.events, axis=2)
         logger.info("Closing {} after writing {} events".format(self.filepath, EngNumber(self.numEventsWritten)))
         if "s3://" in self.filepath:
             from aiisp_tool.utils.oss_helper import OSSHelper
