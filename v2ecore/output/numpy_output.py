@@ -10,14 +10,15 @@ class DVSNumpyOutput:
     return [h, w, steps]
     '''
 
-    def __init__(self, filepath: str, height: int, width: int, diff: float):
+    def __init__(self, filepath: str, height: int, width: int, diff: float, max_steps:int):
         self.filepath = filepath
         self.height, self.width = height, width
         self.diff = diff
+        self.max_steps = max_steps
         # edit below to match your device from https://inivation.com/support/software/fileformat/#aedat-20
         self.numEventsWritten = 0
         logging.info('opening text DVS output file {}'.format(filepath))
-        self.events = []
+        self.events = np.zeros([height, width, max_steps])
         atexit.register(self.cleanup)
         self.flipx=False # set both flipx and flipy to rotate TODO replace with rotate180
         self.flipy=False
@@ -28,6 +29,8 @@ class DVSNumpyOutput:
     def close(self):
         if self.events is None:
             return
+        if self.events[:, :, 0].max()==self.events[:, :, 0].min()==0:
+            self.events[:, :, 0] = self.events[:, :, 1]
         self.events = np.concatenate(self.events, axis=2)
         logger.info("Closing {} after writing {} events".format(self.filepath, EngNumber(self.numEventsWritten)))
         if "s3://" in self.filepath:
@@ -53,10 +56,9 @@ class DVSNumpyOutput:
         if self.flipy: y = (self.height - 1) - y
         p = (events[:, 3]).astype(np.int32) # -1 / 1
         for i in range(n):
-            step = max(int(t[i] // self.diff)-1, 0)
-            if step+1 > len(self.events):
-                for _i in range(len(self.events), step+1):
-                    self.events.append(np.zeros([self.height, self.width, 1]).astype(np.int32))
+            step = int(t[i] // self.diff)
+            if step >= self.max_steps:
+                continue
             self.events[step][y[i], x[i], 0] += p[i]
 
         self.numEventsWritten += n

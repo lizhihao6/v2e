@@ -55,6 +55,7 @@ class EventEmulator(object):
             dvs_text: str = None,
             dvs_numpy: str = None,
             dvs_numpy_diff: float = None,
+            dvs_numpy_steps: int = None,
             # change as you like to see 'baseLogFrame',
             # 'lpLogFrame', 'diff_frame'
             show_dvs_model_state: str = None,
@@ -147,8 +148,8 @@ class EventEmulator(object):
         self.dvs_text = dvs_text
         if dvs_numpy is not None:
             assert dvs_numpy_diff is not None, "dvs_numpy_diff should given when use dvs_numpy output"
+            assert dvs_numpy_steps is not None, "dvs_numpy_steps should given when use dvs_numpy output"
         self.dvs_numpy = dvs_numpy
-        self.dvs_numpy_diff = dvs_numpy_diff
 
         # event stats
         self.num_events_total = 0
@@ -190,7 +191,7 @@ class EventEmulator(object):
                     path = os.path.join(self.output_folder, dvs_numpy)
                 path = checkAddSuffix(path, '.npy')
                 logger.info('opening text DVS output file ' + path)
-                self.dvs_numpy = DVSNumpyOutput(path, self.output_height, self.output_width, self.dvs_numpy_diff)
+                self.dvs_numpy = DVSNumpyOutput(path, self.output_height, self.output_width, dvs_numpy_diff, dvs_numpy_steps)
         except Exception as e:
             logger.error(f'Output file exception "{e}" (maybe you need to specify a supported DVS camera type?)')
             raise e

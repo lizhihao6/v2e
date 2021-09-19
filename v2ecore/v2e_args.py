@@ -368,6 +368,9 @@ def v2e_args(parser):
     dvsEventOutputGroup.add_argument(
         "--dvs_numpy_diff", type=float, default=None,
         help="Concat several frames to a single step layer of numpy.")
+    dvsEventOutputGroup.add_argument(
+        "--dvs_numpy_steps", type=int, default=None,
+        help="Concat several frames to a single step layer of numpy.")
     #  dvsEventOutputGroup.add_argument(
     #      "--dvs_numpy", type=output_file_check, default="None",
     #      help="Accumulates DVS events to memory and writes final numpy data "
