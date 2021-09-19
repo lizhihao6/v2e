@@ -18,7 +18,8 @@ class DVSNumpyOutput:
         # edit below to match your device from https://inivation.com/support/software/fileformat/#aedat-20
         self.numEventsWritten = 0
         logging.info('opening text DVS output file {}'.format(filepath))
-        self.events = np.zeros([height, width, max_steps])
+        # maybe use larger data type when diff is huge
+        self.events = np.zeros([height, width, max_steps]).astype(np.int8)
         atexit.register(self.cleanup)
         self.flipx=False # set both flipx and flipy to rotate TODO replace with rotate180
         self.flipy=False
