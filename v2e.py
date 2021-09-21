@@ -55,7 +55,11 @@ logging.addLevelName(
 logger = logging.getLogger(__name__)
 
 # torch device
-torch_device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+if torch.cuda.is_available():
+    torch_device = torch_device('cude')
+else:
+    torch_device = torch_device('cpu')
+    torch.set_num_threads(1)
 
 # may only apply to windows
 try:
