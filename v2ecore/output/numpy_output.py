@@ -55,7 +55,7 @@ class DVSNumpyOutput:
         y = events[:, 2].astype(np.int32)
         if self.flipy: y = (self.height - 1) - y
         p = (events[:, 3]).astype(np.int32) # -1 / 1
-        step = np.maximum(t//self.diff, self.max_steps-1).astype(np.uint8)
+        step = np.minimum(t//self.diff, self.max_steps-1).astype(np.uint8)
         self.events[y, x, step] += p
         # for i in range(n):
             # step = int(t[i] // self.diff)
