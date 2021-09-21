@@ -738,7 +738,7 @@ def main():
                 # right before event emulation
                 if args.davis_output:
                     emulator.prepare_storage(nFrames, interpTimes)
-                with tqdm(total=nFrames, desc='dvs', unit='fr') as pbar:
+                with tqdm(total=nFrames, desc='dvs', unit='fr', file=sys.stdout) as pbar:
                     with torch.no_grad():
                         for i in range(nFrames):
                             fr = read_image(interpFramesFilenames[i])
